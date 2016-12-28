@@ -20,15 +20,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 body {
 	line-height: 1;
 	color: white;
+	background: #333;
+	font-family: sans-serif;
+	text-shadow: 1px 1px 1px #000;
 }
 
 ol, ul {
 	list-style: none;
-}
-
-body {
-  background: #333;
-  font-family: sans-serif;
 }
 
 canvas {
@@ -54,4 +52,13 @@ h1 {
 }
 
 .wall-container {
+}
+
+.goal-container {
+	width: 200px;
+	margin: 20px auto;
+	padding: 20px;
+	text-align: center;
+	background: #555;
+	border: 1px solid #000;
 }
