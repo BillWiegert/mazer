@@ -111,11 +111,17 @@ class Board {
     return path.reverse();
   }
 
-  showPath(path) {
-    path.forEach(pos => {
-      this.cell(pos).updateType("active");
-    });
-    this.render();
+  getBestPath() {
+    let bestPath = this.generatePath(this.bfs(this.startPositions[0]));
+
+    for (let i = 1; i < this.startPositions.length; i++) {
+      let path = this.generatePath(this.bfs(this.startPositions[i]));
+      if (path.length < bestPath.length) {
+        bestPath = path;
+      }
+    }
+
+    return bestPath;
   }
 
   animatePath(path) {
@@ -134,8 +140,7 @@ class Board {
   }
 
   start() {
-    const map = this.bfs([0,9]);
-    const path = this.generatePath(map);
+    const path = this.getBestPath();
     this.animatePath(path);
   }
 
@@ -163,6 +168,8 @@ class Board {
     for(let i = 0; i < 10; i++) {
       start.push([0, i]);
     }
+
+    this.startPositions = start;
 
     const finish = [];
 
