@@ -26,7 +26,7 @@ class Board {
     this.wallCounter = document.getElementById('wall-counter');
     this.moveCounter = document.getElementById('move-counter');
     this.goalMoves = document.getElementById('goal-moves');
-    createjs.Ticker.setFPS(5);
+    createjs.Ticker.setFPS(10);
 
     if (level <= 10) {
       this.populateLevel();
@@ -100,6 +100,10 @@ class Board {
   }
 
   generatePath(bfsResult) {
+    if (!bfsResult["dest"]) {
+      return [];
+    }
+
     let current = bfsResult["dest"];
     const path = [current];
 
@@ -141,7 +145,12 @@ class Board {
 
   start() {
     const path = this.getBestPath();
-    this.animatePath(path);
+
+    if (path.length > 0) {
+      this.animatePath(path);
+    } else {
+      alert("Path is blocked!");
+    }
   }
 
   populateLevel() {
@@ -259,7 +268,7 @@ class Cell {
   }
 
   deactivate(e, data) {
-    if (data.expire <= createjs.Ticker.getTicks()) {
+    if (data.expire === createjs.Ticker.getTicks()) {
       this.draw();
       this.setAlpha();
       this.board.render();
