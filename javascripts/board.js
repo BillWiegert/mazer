@@ -6,14 +6,11 @@ class Board {
   constructor(level) {
     this.stage = new createjs.Stage("stage");
     this.stage.enableMouseOver(20);
-    this.grid = this.emptyGrid();
     this.level = new Level(level);
     this.wallCounter = document.getElementById('wall-counter');
     this.moveCounter = document.getElementById('move-counter');
     this.goalMoves = document.getElementById('goal-moves');
-    this.moves = 0;
     this.populateLevel();
-
   }
 
   emptyGrid() {
@@ -137,7 +134,9 @@ class Board {
   }
 
   populateLevel() {
+    this.grid = this.emptyGrid();
     this.walls = this.level.walls;
+    this.moves = 0;
     this.goalMoves.innerHTML = `Goal Moves: ${this.level.goal}`;
 
     this.level.rocks.forEach(rock => {
@@ -151,6 +150,14 @@ class Board {
     this.level.finish.forEach(finish => {
       this.cell(finish).updateType("finish");
     });
+  }
+
+  changeLevel(n) {
+    this.stage.removeAllChildren();
+    createjs.Ticker.reset();
+    this.level = new Level(n);
+    this.populateLevel();
+    this.render();
   }
 
   clearWalls() {

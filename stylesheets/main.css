@@ -47,10 +47,40 @@ h1 {
   color: #ff0;
 }
 
+button {
+	border: 1px solid #333;
+	border-radius: 5px;
+	background-color: #ddd;
+}
+
+button:hover, button:focus {
+	outline: none;
+	border-color: #47f;
+	background-color: #fff;
+}
+
+button:active {
+	background-color: #47f;
+}
+
 .clearfix:after {
 	display: block;
 	content: "";
 	clear: both;
+}
+
+.level-select {
+	width: 525px;
+	margin: 10px auto;
+	padding: 5px;
+	background: #555;
+	border: 1px solid #000;
+	box-sizing: border-box;
+}
+
+.level-select > li {
+	float: left;
+	margin-right: 5px;
 }
 
 .level-options {
@@ -58,6 +88,7 @@ h1 {
   margin: 10px auto;
 	padding: 5px;
 	background: #555;
+	border: 1px solid #000;
 	box-sizing: border-box;
 }
 

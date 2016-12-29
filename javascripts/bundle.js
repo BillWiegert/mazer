@@ -53,9 +53,21 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener("DOMContentLoaded", function (event) {
-	  var board = new _board2.default(4);
+	  var board = new _board2.default(1);
 	  var clearBtn = document.getElementById('clear');
 	  var startBtn = document.getElementById('start');
+	  var levelBtns = [];
+	
+	  var _loop = function _loop(i) {
+	    var btn = document.getElementById("level-" + i);
+	    btn.addEventListener('click', function (event) {
+	      board.changeLevel(i);
+	    });
+	  };
+	
+	  for (var i = 1; i <= 10; i++) {
+	    _loop(i);
+	  }
 	
 	  createjs.Ticker.setFPS(10);
 	  board.render();
@@ -105,12 +117,10 @@
 	
 	    this.stage = new createjs.Stage("stage");
 	    this.stage.enableMouseOver(20);
-	    this.grid = this.emptyGrid();
 	    this.level = new _level2.default(level);
 	    this.wallCounter = document.getElementById('wall-counter');
 	    this.moveCounter = document.getElementById('move-counter');
 	    this.goalMoves = document.getElementById('goal-moves');
-	    this.moves = 0;
 	    this.populateLevel();
 	  }
 	
@@ -261,7 +271,9 @@
 	    value: function populateLevel() {
 	      var _this3 = this;
 	
+	      this.grid = this.emptyGrid();
 	      this.walls = this.level.walls;
+	      this.moves = 0;
 	      this.goalMoves.innerHTML = "Goal Moves: " + this.level.goal;
 	
 	      this.level.rocks.forEach(function (rock) {
@@ -275,6 +287,15 @@
 	      this.level.finish.forEach(function (finish) {
 	        _this3.cell(finish).updateType("finish");
 	      });
+	    }
+	  }, {
+	    key: "changeLevel",
+	    value: function changeLevel(n) {
+	      this.stage.removeAllChildren();
+	      createjs.Ticker.reset();
+	      this.level = new _level2.default(n);
+	      this.populateLevel();
+	      this.render();
 	    }
 	  }, {
 	    key: "clearWalls",
