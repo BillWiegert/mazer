@@ -47,9 +47,23 @@ h1 {
   color: #ff0;
 }
 
+.clearfix:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
 .level-options {
   width: 525px;
   margin: 10px auto;
+	padding: 5px;
+	background: #555;
+	box-sizing: border-box;
+}
+
+.level-options > li {
+	float: left;
+	margin-right: 10px;
 }
 
 .wall-container {
