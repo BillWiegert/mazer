@@ -1,6 +1,7 @@
 import Queue from "./queue.js";
 import Cell from "./cell.js";
 import Level from "./level.js";
+import Stats from "./stats.js";
 
 class Board {
   constructor(level) {
@@ -10,7 +11,9 @@ class Board {
     this.wallCounter = document.getElementById('wall-counter');
     this.moveCounter = document.getElementById('move-counter');
     this.goalMoves = document.getElementById('goal-moves');
+    this.startBtn = document.getElementById('start');
     this.populateLevel();
+    this.stats = new Stats;
   }
 
   emptyGrid() {
@@ -115,8 +118,9 @@ class Board {
   activateCell(e, data) {
     const n = createjs.Ticker.getTicks(true) - 1;
     const pos = data.path[n];
-    if (n >= data.path.length + 5) {
+    if (n === data.path.length + 5) {
       createjs.Ticker.reset();
+      this.enableStart();
     } else if (pos) {
       this.moves = n;
       this.cell(pos).activate();
@@ -127,10 +131,19 @@ class Board {
     const path = this.getBestPath();
 
     if (path.length > 0) {
+      this.disableStart();
       this.animatePath(path);
     } else {
       alert("Path is blocked!");
     }
+  }
+
+  disableStart() {
+    this.startBtn.setAttribute("disabled", "true");
+  }
+
+  enableStart() {
+    this.startBtn.removeAttribute("disabled");
   }
 
   populateLevel() {

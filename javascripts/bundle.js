@@ -53,14 +53,19 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener("DOMContentLoaded", function (event) {
-	  var board = new _board2.default(1);
+	  var currentLevel = 1;
+	  var board = new _board2.default(currentLevel);
 	  var clearBtn = document.getElementById('clear');
 	  var startBtn = document.getElementById('start');
 	  var levelBtns = [];
 	
 	  var _loop = function _loop(i) {
 	    var btn = document.getElementById("level-" + i);
+	    levelBtns.push(btn);
 	    btn.addEventListener('click', function (event) {
+	      levelBtns[currentLevel - 1].classList.remove("current-level");
+	      currentLevel = i;
+	      event.target.classList.add("current-level");
 	      board.changeLevel(i);
 	    });
 	  };
@@ -68,6 +73,8 @@
 	  for (var i = 1; i <= 10; i++) {
 	    _loop(i);
 	  }
+	
+	  levelBtns[currentLevel - 1].classList.add("current-level");
 	
 	  createjs.Ticker.setFPS(10);
 	  board.render();
@@ -107,6 +114,10 @@
 	
 	var _level2 = _interopRequireDefault(_level);
 	
+	var _stats = __webpack_require__(5);
+	
+	var _stats2 = _interopRequireDefault(_stats);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -121,7 +132,9 @@
 	    this.wallCounter = document.getElementById('wall-counter');
 	    this.moveCounter = document.getElementById('move-counter');
 	    this.goalMoves = document.getElementById('goal-moves');
+	    this.startBtn = document.getElementById('start');
 	    this.populateLevel();
+	    this.stats = new _stats2.default();
 	  }
 	
 	  _createClass(Board, [{
@@ -248,8 +261,9 @@
 	    value: function activateCell(e, data) {
 	      var n = createjs.Ticker.getTicks(true) - 1;
 	      var pos = data.path[n];
-	      if (n >= data.path.length + 5) {
+	      if (n === data.path.length + 5) {
 	        createjs.Ticker.reset();
+	        this.enableStart();
 	      } else if (pos) {
 	        this.moves = n;
 	        this.cell(pos).activate();
@@ -261,10 +275,21 @@
 	      var path = this.getBestPath();
 	
 	      if (path.length > 0) {
+	        this.disableStart();
 	        this.animatePath(path);
 	      } else {
 	        alert("Path is blocked!");
 	      }
+	    }
+	  }, {
+	    key: "disableStart",
+	    value: function disableStart() {
+	      this.startBtn.setAttribute("disabled", "true");
+	    }
+	  }, {
+	    key: "enableStart",
+	    value: function enableStart() {
+	      this.startBtn.removeAttribute("disabled");
 	    }
 	  }, {
 	    key: "populateLevel",
@@ -662,6 +687,65 @@
 	}();
 	
 	exports.default = Level;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Stats = function () {
+	  function Stats() {
+	    _classCallCheck(this, Stats);
+	
+	    this.data = this.loadSavedStats();
+	  }
+	
+	  _createClass(Stats, [{
+	    key: 'loadSavedStats',
+	    value: function loadSavedStats() {
+	      var cookies = document.cookie.split(';');
+	      for (var i = 0; i < cookies.length; i++) {
+	        var c = cookies[i];
+	
+	        while (c.charAt(0) == ' ') {
+	          c = c.substring(1);
+	        }
+	
+	        if (c.indexOf('stats=') == 0) {
+	          var _stats = c.substring(name.length, c.length);
+	          return JSON.parse(_stats);
+	        }
+	      }
+	      return {};
+	    }
+	  }, {
+	    key: 'updateStats',
+	    value: function updateStats(level, score, walls) {
+	      this.data[level].best = score;
+	      this.data[level].walls = walls;
+	      stats = JSON.stringify(this.data);
+	      document.cookie = 'stats=' + stats;
+	    }
+	  }, {
+	    key: 'clearStats',
+	    value: function clearStats() {
+	      document.cookie = "stats={}";
+	    }
+	  }]);
+	
+	  return Stats;
+	}();
+	
+	exports.default = Stats;
 
 /***/ }
 /******/ ]);
