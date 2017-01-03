@@ -261,6 +261,8 @@
 	    value: function activateCell(e, data) {
 	      var n = createjs.Ticker.getTicks(true) - 1;
 	      var pos = data.path[n];
+	      this.updateMoveCount();
+	      this.render();
 	      if (n === data.path.length + 5) {
 	        createjs.Ticker.reset();
 	        this.enableStart();
@@ -320,7 +322,10 @@
 	      createjs.Ticker.reset();
 	      this.level = new _level2.default(n);
 	      this.populateLevel();
+	      this.updateWallCount();
+	      this.updateMoveCount();
 	      this.render();
+	      this.enableStart();
 	    }
 	  }, {
 	    key: "clearWalls",
@@ -334,6 +339,7 @@
 	          }
 	        }
 	      }
+	      this.updateWallCount();
 	      this.render();
 	    }
 	  }, {
@@ -349,8 +355,8 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      this.updateWallCount();
-	      this.updateMoveCount();
+	      // this.updateWallCount();
+	      // this.updateMoveCount();
 	      this.stage.update();
 	    }
 	  }]);
@@ -453,6 +459,7 @@
 	  }, {
 	    key: "activate",
 	    value: function activate() {
+	      this.active = true;
 	      var expire = createjs.Ticker.getTicks() + 5;
 	      createjs.Ticker.on("tick", this.deactivate, this, false, { expire: expire });
 	      this.rect.graphics.clear().beginStroke("rgba(0,0,0,1)").beginFill("#0000FF").drawRect(this.pos[0] * 35, this.pos[1] * 35, 35, 35);
@@ -463,9 +470,9 @@
 	    key: "deactivate",
 	    value: function deactivate(e, data) {
 	      if (data.expire === createjs.Ticker.getTicks()) {
+	        this.active = false;
 	        this.draw();
 	        this.setAlpha();
-	        this.board.render();
 	      }
 	    }
 	  }, {
@@ -499,8 +506,10 @@
 	  }, {
 	    key: "handleMouseOver",
 	    value: function handleMouseOver(e) {
-	      e.target.alpha = e.type === "mouseover" ? 0.25 : 0.01;
-	      this.board.render();
+	      if (!this.active) {
+	        e.target.alpha = e.type === "mouseover" ? 0.25 : 0.01;
+	        this.board.render();
+	      }
 	    }
 	  }, {
 	    key: "addWall",
@@ -508,6 +517,7 @@
 	      if (this.board.walls > 0) {
 	        this.board.walls--;
 	        this.updateType("wall");
+	        this.board.updateWallCount();
 	        this.board.render();
 	      }
 	    }
@@ -516,6 +526,7 @@
 	    value: function removeWall() {
 	      this.board.walls += 1;
 	      this.updateType("empty");
+	      this.board.updateWallCount();
 	      this.board.render();
 	    }
 	  }, {

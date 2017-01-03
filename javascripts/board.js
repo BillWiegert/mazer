@@ -118,6 +118,8 @@ class Board {
   activateCell(e, data) {
     const n = createjs.Ticker.getTicks(true) - 1;
     const pos = data.path[n];
+    this.updateMoveCount();
+    this.render();
     if (n === data.path.length + 5) {
       createjs.Ticker.reset();
       this.enableStart();
@@ -170,7 +172,10 @@ class Board {
     createjs.Ticker.reset();
     this.level = new Level(n);
     this.populateLevel();
+    this.updateWallCount();
+    this.updateMoveCount();
     this.render();
+    this.enableStart();
   }
 
   clearWalls() {
@@ -183,6 +188,7 @@ class Board {
         }
       }
     }
+    this.updateWallCount();
     this.render();
   }
 
@@ -195,8 +201,8 @@ class Board {
   }
 
   render() {
-    this.updateWallCount();
-    this.updateMoveCount();
+    // this.updateWallCount();
+    // this.updateMoveCount();
     this.stage.update();
   }
 }

@@ -24,6 +24,7 @@ class Cell {
   }
 
   activate() {
+    this.active = true;
     const expire = createjs.Ticker.getTicks() + 5;
     createjs.Ticker.on("tick", this.deactivate, this, false, {expire});
     this.rect.graphics.clear()
@@ -36,9 +37,9 @@ class Cell {
 
   deactivate(e, data) {
     if (data.expire === createjs.Ticker.getTicks()) {
+      this.active = false;
       this.draw();
       this.setAlpha();
-      this.board.render();
     }
   }
 
@@ -69,14 +70,17 @@ class Cell {
   }
 
   handleMouseOver(e) {
-    e.target.alpha = (e.type === "mouseover") ? 0.25 : 0.01;
-    this.board.render();
+    if (!this.active) {
+      e.target.alpha = (e.type === "mouseover") ? 0.25 : 0.01;
+      this.board.render();
+    }
   }
 
   addWall() {
     if (this.board.walls > 0) {
       this.board.walls--;
       this.updateType("wall");
+      this.board.updateWallCount();
       this.board.render();
     }
   }
@@ -84,6 +88,7 @@ class Cell {
   removeWall() {
     this.board.walls += 1;
     this.updateType("empty");
+    this.board.updateWallCount();
     this.board.render();
   }
 
