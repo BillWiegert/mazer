@@ -2,6 +2,7 @@ class Stats {
   constructor() {
     this.data = this.loadSavedStats();
   }
+  //TODO: use local storage instead of cookies
 
   loadSavedStats() {
     const cookies = document.cookie.split(';');

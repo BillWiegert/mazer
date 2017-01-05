@@ -9,9 +9,71 @@
     <link rel="stylesheet" type="text/css" href="./stylesheets/main.css">
   </head>
   <body>
-    <header>
+    <header class="main-header">
+      <button id="tutorial-btn">Tutorial</button>
     </header>
+
     <h1>Mazer</h1>
+
+    <div id="mazer-modal" class="modal">
+      <div id="modal-content" class="modal-content">
+        <div class="modal-header">
+          <span class="close-modal x-btn">&times;</span>
+        </div>
+
+        <div id="tutorial-modal" class="modal-inner">
+          <ul>
+            <li>
+              The goal of Mazer is to create the longest possible path
+              from start to finish.
+            </li>
+            <li>
+              The path starts from any of the light green cells on the
+              left and ends on any of the gray cells on the right.
+            </li>
+            <li>
+              Brown cells are Rocks (<span class="rock">▧</span>),
+              they block the path and cannot be moved. You can alter
+              the path by placing Walls (<span class="wall">▧</span>) to
+              block the path.
+            </li>
+            <li>
+              You can place Walls by clicking any open cell. You have a
+              limited number of walls indicated by the counter under the
+              board.
+            </li>
+            <li>
+              Click the Start! button to animate the path and calculate
+              the number of moves you achieved.
+            </li>
+            <li>
+              Walls can be removed to be placed elsewhere by clicking on
+              them.
+            </li>
+          </ul>
+          <button class="close-modal">Close</button>
+        </div>
+
+        <div id="next-level-modal" class="modal-inner">
+          Level complete!
+          <button id="next-level-btn">Next Level</button>
+        </div>
+
+        <div id="final-level-modal" class="modal-inner">
+          Congratulations! You Win!
+          <button class="close-modal">Close</button>
+        </div>
+
+        <div id="path-blocked-modal" class="modal-inner">
+          Path is blocked!
+          <button class="close-modal">Close</button>
+        </div>
+
+        <div class="modal-footer"></div>
+      </div>
+
+    </div>
+
     <ul class="level-select clearfix">
       <li><button id="level-1" class="level-btn">Level 1</button></li>
       <li><button id="level-2" class="level-btn">Level 2</button></li>
@@ -24,14 +86,16 @@
       <li><button id="level-9" class="level-btn">Level 9</button></li>
       <li><button id="level-10" class="level-btn">Level 10</button></li>
     </ul>
+
     <canvas id="stage" width="525" height="350">
       Your browser does not support Mazer.
       Switch to a
       <a href="https://www.google.com/chrome"> modern browser </a>
       to play the game.
     </canvas>
+
     <ul class="level-options clearfix">
-      <li><button id="start" class="btn start">Start!</button></li>
+      <li><button id="start" class="btn start" autofocus>Start!</button></li>
       <li>
         <select onchange="createjs.Ticker.setFPS(Number(this.value));">
       		<option value="5">Slow</option>
@@ -41,12 +105,18 @@
           <option value="300">Insane</option>
       	</select>
       </li>
-      <li class="moves-container">Moves: <span id="move-counter"></span></li>
-      <li class="wall-container">Walls: <span id="wall-counter"></span></li>
+      <li class="moves-container">
+        Moves: <span id="move-counter"></span>
+      </li>
+      <li class="wall-container">
+        Walls: <span id="wall-counter"></span>
+      </li>
       <li><button id="clear" class="btn clear">Clear</button></li>
     </ul>
+
     <div class="goal-container">
       <span id="goal-moves"></span>
     </div>
+
   </body>
 </html>

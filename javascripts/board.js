@@ -123,6 +123,14 @@ class Board {
     if (n === data.path.length + 5) {
       createjs.Ticker.reset();
       this.enableStart();
+
+      if (this.moves >= this.level.goal) {
+        if (this.level.levelId < 10) {
+          this.modalSubcontent.show("nextLevel");
+        } else if (this.level.levelId === 10) {
+          this.modalSubcontent.show("finalLevel");
+        }
+      }
     } else if (pos) {
       this.moves = n;
       this.cell(pos).activate();
@@ -136,7 +144,7 @@ class Board {
       this.disableStart();
       this.animatePath(path);
     } else {
-      alert("Path is blocked!");
+      this.modalSubcontent.show("pathBlocked");
     }
   }
 
@@ -152,6 +160,8 @@ class Board {
     this.grid = this.emptyGrid();
     this.walls = this.level.walls;
     this.moves = 0;
+    this.updateWallCount();
+    this.updateMoveCount();
     this.goalMoves.innerHTML = `Goal Moves: ${this.level.goal}`;
 
     this.level.rocks.forEach(rock => {
@@ -172,10 +182,16 @@ class Board {
     createjs.Ticker.reset();
     this.level = new Level(n);
     this.populateLevel();
-    this.updateWallCount();
-    this.updateMoveCount();
     this.render();
     this.enableStart();
+  }
+
+  nextLevel() {
+    const currentLevel = this.level.levelId;
+    if (currentLevel < 10) {
+      this.changeLevel(currentLevel + 1);
+      return (currentLevel);
+    }
   }
 
   clearWalls() {
@@ -201,8 +217,6 @@ class Board {
   }
 
   render() {
-    // this.updateWallCount();
-    // this.updateMoveCount();
     this.stage.update();
   }
 }

@@ -79,6 +79,69 @@
 	  createjs.Ticker.setFPS(10);
 	  board.render();
 	
+	  var modal = document.getElementById('mazer-modal');
+	  var modalContent = document.getElementById('modal-content');
+	
+	  var modalSubcontent = {};
+	  modalSubcontent.tutorial = document.getElementById('tutorial-modal');
+	  modalSubcontent.nextLevel = document.getElementById('next-level-modal');
+	  modalSubcontent.finalLevel = document.getElementById('final-level-modal');
+	  modalSubcontent.pathBlocked = document.getElementById('path-blocked-modal');
+	  modalSubcontent.hide = function hide() {
+	    modal.style.display = "none";
+	    this.tutorial.style.display = "none";
+	    this.nextLevel.style.display = "none";
+	    this.finalLevel.style.display = "none";
+	    this.pathBlocked.style.display = "none";
+	  };
+	
+	  modalSubcontent.show = function show(content) {
+	    modal.style.display = "block";
+	    var element = this[content];
+	    element.style.display = "block";
+	
+	    switch (element.id) {
+	      case "tutorial-modal":
+	        modalContent.style.width = "80%";
+	        modalContent.style.minWidth = "400px";
+	        break;
+	      default:
+	        modalContent.style.width = "30%";
+	        modalContent.style.minWidth = "160px";
+	    }
+	  };
+	
+	  board.modalSubcontent = modalSubcontent;
+	
+	  var modelCloseBtns = document.getElementsByClassName('close-modal');
+	
+	  for (var i = 0; i < modelCloseBtns.length; i++) {
+	    modelCloseBtns[i].onclick = function () {
+	      modal.style.display = "none";
+	      modalSubcontent.hide();
+	    };
+	  }
+	
+	  window.onclick = function (event) {
+	    if (event.target == modal) {
+	      modalSubcontent.hide();
+	    }
+	  };
+	
+	  var nextLevelBtn = document.getElementById('next-level-btn');
+	
+	  nextLevelBtn.onclick = function (event) {
+	    modalSubcontent.hide();
+	    var next = board.nextLevel();
+	    levelBtns[next].click();
+	  };
+	
+	  var tutorialBtn = document.getElementById("tutorial-btn");
+	
+	  tutorialBtn.onclick = function (event) {
+	    modalSubcontent.show("tutorial");
+	  };
+	
 	  clearBtn.addEventListener('click', function (event) {
 	    board.clearWalls();
 	  });
@@ -87,7 +150,7 @@
 	    board.start();
 	  });
 	
-	  window.board = board;
+	  window.board = board; //for debugging TODO: delete this
 	});
 
 /***/ },
@@ -266,6 +329,14 @@
 	      if (n === data.path.length + 5) {
 	        createjs.Ticker.reset();
 	        this.enableStart();
+	
+	        if (this.moves >= this.level.goal) {
+	          if (this.level.levelId < 10) {
+	            this.modalSubcontent.show("nextLevel");
+	          } else if (this.level.levelId === 10) {
+	            this.modalSubcontent.show("finalLevel");
+	          }
+	        }
 	      } else if (pos) {
 	        this.moves = n;
 	        this.cell(pos).activate();
@@ -280,7 +351,7 @@
 	        this.disableStart();
 	        this.animatePath(path);
 	      } else {
-	        alert("Path is blocked!");
+	        this.modalSubcontent.show("pathBlocked");
 	      }
 	    }
 	  }, {
@@ -301,6 +372,8 @@
 	      this.grid = this.emptyGrid();
 	      this.walls = this.level.walls;
 	      this.moves = 0;
+	      this.updateWallCount();
+	      this.updateMoveCount();
 	      this.goalMoves.innerHTML = "Goal Moves: " + this.level.goal;
 	
 	      this.level.rocks.forEach(function (rock) {
@@ -322,10 +395,17 @@
 	      createjs.Ticker.reset();
 	      this.level = new _level2.default(n);
 	      this.populateLevel();
-	      this.updateWallCount();
-	      this.updateMoveCount();
 	      this.render();
 	      this.enableStart();
+	    }
+	  }, {
+	    key: "nextLevel",
+	    value: function nextLevel() {
+	      var currentLevel = this.level.levelId;
+	      if (currentLevel < 10) {
+	        this.changeLevel(currentLevel + 1);
+	        return currentLevel;
+	      }
 	    }
 	  }, {
 	    key: "clearWalls",
@@ -355,8 +435,6 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      // this.updateWallCount();
-	      // this.updateMoveCount();
 	      this.stage.update();
 	    }
 	  }]);
@@ -719,6 +797,7 @@
 	
 	    this.data = this.loadSavedStats();
 	  }
+	  //TODO: use local storage instead of cookies
 	
 	  _createClass(Stats, [{
 	    key: 'loadSavedStats',
