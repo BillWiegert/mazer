@@ -1,7 +1,7 @@
 import Queue from "./queue.js";
 import Cell from "./cell.js";
 import Level from "./level.js";
-import Stats from "./stats.js";
+// import Stats from "./stats.js";
 
 class Board {
   constructor(level) {
@@ -13,7 +13,7 @@ class Board {
     this.goalMoves = document.getElementById('goal-moves');
     this.startBtn = document.getElementById('start');
     this.populateLevel();
-    this.stats = new Stats;
+    // this.stats = new Stats;
   }
 
   emptyGrid() {

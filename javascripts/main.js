@@ -94,5 +94,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
     board.start();
   })
 
-  window.board = board; //for debugging TODO: delete this
 });

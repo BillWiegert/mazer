@@ -149,8 +149,6 @@
 	  startBtn.addEventListener('click', function (event) {
 	    board.start();
 	  });
-	
-	  window.board = board; //for debugging TODO: delete this
 	});
 
 /***/ },
@@ -177,13 +175,11 @@
 	
 	var _level2 = _interopRequireDefault(_level);
 	
-	var _stats = __webpack_require__(5);
-	
-	var _stats2 = _interopRequireDefault(_stats);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// import Stats from "./stats.js";
 	
 	var Board = function () {
 	  function Board(level) {
@@ -197,7 +193,7 @@
 	    this.goalMoves = document.getElementById('goal-moves');
 	    this.startBtn = document.getElementById('start');
 	    this.populateLevel();
-	    this.stats = new _stats2.default();
+	    // this.stats = new Stats;
 	  }
 	
 	  _createClass(Board, [{
@@ -776,66 +772,6 @@
 	}();
 	
 	exports.default = Level;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Stats = function () {
-	  function Stats() {
-	    _classCallCheck(this, Stats);
-	
-	    this.data = this.loadSavedStats();
-	  }
-	  //TODO: use local storage instead of cookies
-	
-	  _createClass(Stats, [{
-	    key: 'loadSavedStats',
-	    value: function loadSavedStats() {
-	      var cookies = document.cookie.split(';');
-	      for (var i = 0; i < cookies.length; i++) {
-	        var c = cookies[i];
-	
-	        while (c.charAt(0) == ' ') {
-	          c = c.substring(1);
-	        }
-	
-	        if (c.indexOf('stats=') == 0) {
-	          var _stats = c.substring(name.length, c.length);
-	          return JSON.parse(_stats);
-	        }
-	      }
-	      return {};
-	    }
-	  }, {
-	    key: 'updateStats',
-	    value: function updateStats(level, score, walls) {
-	      this.data[level].best = score;
-	      this.data[level].walls = walls;
-	      stats = JSON.stringify(this.data);
-	      document.cookie = 'stats=' + stats;
-	    }
-	  }, {
-	    key: 'clearStats',
-	    value: function clearStats() {
-	      document.cookie = "stats={}";
-	    }
-	  }]);
-	
-	  return Stats;
-	}();
-	
-	exports.default = Stats;
 
 /***/ }
 /******/ ]);

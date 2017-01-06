@@ -10,7 +10,12 @@
   </head>
   <body>
     <header class="main-header">
-      <button id="tutorial-btn">Tutorial</button>
+      <nav class="header-nav">
+        <button id="tutorial-btn" class="header-btn">How to Play</button>
+        <button id="github-repo" class="header-btn">Github Repo</button>
+        <button id="portfolio-site" class="header-btn">About Me</button>
+        <button id="github-personal" class="header-btn">My Github</button>
+      </nav>
     </header>
 
     <h1>Mazer</h1>
@@ -94,25 +99,29 @@
       to play the game.
     </canvas>
 
-    <ul class="level-options clearfix">
-      <li><button id="start" class="btn start" autofocus>Start!</button></li>
-      <li>
-        <select onchange="createjs.Ticker.setFPS(Number(this.value));">
-      		<option value="5">Slow</option>
-      		<option value="10" selected="">Medium</option>
-      		<option value="30">Fast</option>
-      		<option value="60">Ultra</option>
-          <option value="300">Insane</option>
-      	</select>
-      </li>
-      <li class="moves-container">
+    <div class="level-options clearfix">
+      <div class="moves-container">
         Moves: <span id="move-counter"></span>
-      </li>
-      <li class="wall-container">
-        Walls: <span id="wall-counter"></span>
-      </li>
-      <li><button id="clear" class="btn clear">Clear</button></li>
-    </ul>
+      </div>
+      <ul class="level-options-left">
+        <li><button id="start" class="btn start" autofocus>Start!</button></li>
+        <li>
+          <select onchange="createjs.Ticker.setFPS(Number(this.value));">
+        		<option value="5">Slow</option>
+        		<option value="10" selected="">Medium</option>
+        		<option value="30">Fast</option>
+        		<option value="60">Ultra</option>
+            <option value="300">Insane</option>
+        	</select>
+        </li>
+      </ul>
+      <ul class="level-options-right">
+        <li><button id="clear" class="btn clear">Clear</button></li>
+        <li class="wall-container">
+          Walls: <span id="wall-counter"></span>
+        </li>
+      </ul>
+    </div>
 
     <div class="goal-container">
       <span id="goal-moves"></span>
