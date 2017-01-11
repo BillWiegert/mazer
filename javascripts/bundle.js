@@ -57,6 +57,9 @@
 	  var board = new _board2.default(currentLevel);
 	  var clearBtn = document.getElementById('clear');
 	  var startBtn = document.getElementById('start');
+	  var repoBtn = document.getElementById('github-repo');
+	  var portfolioBtn = document.getElementById('portfolio-site');
+	  var githubBtn = document.getElementById('github-personal');
 	  var levelBtns = [];
 	
 	  var _loop = function _loop(i) {
@@ -78,6 +81,18 @@
 	
 	  createjs.Ticker.setFPS(10);
 	  board.render();
+	
+	  repoBtn.onclick = function (event) {
+	    window.open("https://github.com/billwiegert/mazer", "_blank");
+	  };
+	
+	  portfolioBtn.onclick = function (event) {
+	    window.open("http://billwiegert.com", "_blank");
+	  };
+	
+	  githubBtn.onclick = function (event) {
+	    window.open("https://github.com/billwiegert", "_blank");
+	  };
 	
 	  var modal = document.getElementById('mazer-modal');
 	  var modalContent = document.getElementById('modal-content');
@@ -103,11 +118,13 @@
 	    switch (element.id) {
 	      case "tutorial-modal":
 	        modalContent.style.width = "80%";
-	        modalContent.style.minWidth = "400px";
+	        modalContent.style.minWidth = "500px";
+	        modalContent.style.maxWidth = "800px";
 	        break;
 	      default:
 	        modalContent.style.width = "30%";
 	        modalContent.style.minWidth = "160px";
+	        modalContent.style.maxWidth = "300px";
 	    }
 	  };
 	

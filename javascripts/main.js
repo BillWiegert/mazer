@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const board = new Board(currentLevel);
   const clearBtn = document.getElementById('clear');
   const startBtn = document.getElementById('start');
+  const repoBtn = document.getElementById('github-repo');
+  const portfolioBtn = document.getElementById('portfolio-site');
+  const githubBtn = document.getElementById('github-personal');
   const levelBtns = [];
 
   for (let i = 1; i <= 10; i++) {
@@ -22,6 +25,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   createjs.Ticker.setFPS(10);
   board.render();
+
+  repoBtn.onclick = function (event) {
+    window.open("https://github.com/billwiegert/mazer", "_blank");
+  };
+
+  portfolioBtn.onclick = function (event) {
+    window.open("http://billwiegert.com", "_blank");
+  };
+
+  githubBtn.onclick = function (event) {
+    window.open("https://github.com/billwiegert", "_blank");
+  };
 
   const modal = document.getElementById('mazer-modal');
   const modalContent = document.getElementById('modal-content');
@@ -47,11 +62,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     switch (element.id) {
       case "tutorial-modal":
         modalContent.style.width = "80%";
-        modalContent.style.minWidth = "400px";
+        modalContent.style.minWidth = "500px";
+        modalContent.style.maxWidth = "800px";
         break;
       default:
         modalContent.style.width = "30%";
         modalContent.style.minWidth = "160px";
+        modalContent.style.maxWidth = "300px";
     }
   };
 

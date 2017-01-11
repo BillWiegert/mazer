@@ -7,10 +7,10 @@ Mazer will be a maze making game based on the game [Pathery](www.pathery.com). T
 ## MVP
 
 Mazer will consist of the following features:
-* [ ] A maze solving AI that finds the shortest path
-* [ ] User-placeable walls
-* [ ] Visual representation of pathfinding with adjustable speed.
-* [ ] Ten seed boards with predetermined goal score
+* [x] A maze solving AI that finds the shortest path
+* [x] User-placeable walls
+* [x] Visual representation of pathfinding with adjustable speed.
+* [x] Ten seed boards with predetermined goal score
 
 In addition, this project will include:
 * [ ] A production README
