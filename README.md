@@ -2,7 +2,7 @@
 
 ## Background
 
-[Mazer](www.mazer.space) is a maze making game based on the game [Pathery](www.pathery.com). The objective of the game is to create a maze that takes the computer the greatest number of moves to finish. The board is a grid with a column of starting spaces on the left and finish spaces on the right. Permanent walls are randomly placed on the board and the player is given a variable number of their own walls to place as they see fit.
+[Mazer](http://mazer.space) is a maze making game based on the game [Pathery](http://pathery.com). The objective of the game is to create a maze that takes the computer the greatest number of moves to finish. The board is a grid with a column of starting spaces on the left and finish spaces on the right. Permanent walls are randomly placed on the board and the player is given a variable number of their own walls to place as they see fit.
 
 ## How to Play
 
