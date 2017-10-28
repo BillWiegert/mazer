@@ -577,6 +577,8 @@
 	          break;
 	        case "wall":
 	          this.rect.on("click", this.handleClick, this);
+	          this.rect.on("mouseover", this.handleMouseOver, this);
+	          this.rect.on("mouseout", this.handleMouseOver, this);
 	          break;
 	        case "rock":
 	          break;
@@ -597,10 +599,15 @@
 	  }, {
 	    key: "handleMouseOver",
 	    value: function handleMouseOver(e) {
-	      if (!this.active) {
-	        e.target.alpha = e.type === "mouseover" ? 0.25 : 0.01;
-	        this.board.render();
+	      if (this.active) {
+	        return;
 	      }
+	      if (e.type === "mouseover") {
+	        e.target.alpha = this.type === "wall" ? 0.65 : 0.25;
+	      } else {
+	        this.setAlpha();
+	      }
+	      this.board.render();
 	    }
 	  }, {
 	    key: "addWall",
