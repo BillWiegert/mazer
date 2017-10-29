@@ -72,7 +72,9 @@ class Cell {
   }
 
   handleMouseOver(e) {
-    if (this.active) { return; }
+    if (this.active || (this.board.walls <= 0 && this.type === "empty")) {
+      return;
+    }
     if (e.type === "mouseover") {
       e.target.alpha = (this.type === "wall") ? 0.65 : 0.25;
     } else {

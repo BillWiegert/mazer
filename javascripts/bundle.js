@@ -599,7 +599,7 @@
 	  }, {
 	    key: "handleMouseOver",
 	    value: function handleMouseOver(e) {
-	      if (this.active) {
+	      if (this.active || this.board.walls <= 0 && this.type === "empty") {
 	        return;
 	      }
 	      if (e.type === "mouseover") {
